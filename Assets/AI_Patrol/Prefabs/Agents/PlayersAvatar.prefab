@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 1785175720680617386, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
       propertyPath: _agent
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6754551165685465103}
     - target: {fileID: 2186956081868251454, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsm: {fileID: 8340468647429183187}
+  rotationSpeed: 10
 --- !u!114 &3737536155333853562
 MonoBehaviour:
   m_ObjectHideFlags: 0

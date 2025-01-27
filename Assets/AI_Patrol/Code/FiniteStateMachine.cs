@@ -32,6 +32,8 @@ namespace Mr_Sanmi.AI_Agents
 
         #region Knobs
 
+        [SerializeField] protected float _rotationSpeed;
+
         #endregion
 
         #region RuntimeVariables
@@ -40,6 +42,7 @@ namespace Mr_Sanmi.AI_Agents
         [SerializeField] public Vector3 _movementDirection;
         [SerializeField] protected float _movementSpeed;
         [SerializeField] protected Transform _transform;
+        [SerializeField] protected Vector3 _lookDirection;
 
         #endregion
 
@@ -71,6 +74,8 @@ namespace Mr_Sanmi.AI_Agents
         private void FixedUpdate()
         {
             _rb.linearVelocity = _movementDirection * _movementSpeed;
+
+            ExecutingState();
         }
 
         #endregion
@@ -128,6 +133,20 @@ namespace Mr_Sanmi.AI_Agents
             }
         }
 
+        protected void ExecutingState()
+        {
+            switch (_state)
+            {
+                case States.IDLE:
+                    break;
+                case States.MOVING:
+                    ExecutingMovingState();
+                    break;
+                case States.TURNING:
+                    break;
+            }
+        }
+
         protected void FinalizeState()
         {
             switch (_state)
@@ -168,6 +187,20 @@ namespace Mr_Sanmi.AI_Agents
             {
                 case PlayersAvatar:
                     _movementSpeed = 3.0f;
+                    break;
+                case EnemyNPC:
+                    break;
+            }
+        }
+
+        protected void ExecutingMovingState()
+        {
+            switch (_agent)
+            {
+                case PlayersAvatar:
+                    _lookDirection = new Vector3(_movementDirection.x, 0.0f, _movementDirection.z);
+                    transform.rotation = Quaternion.Slerp(transform.rotation,
+                        Quaternion.LookRotation(_lookDirection), Time.fixedDeltaTime * _rotationSpeed);
                     break;
                 case EnemyNPC:
                     break;

@@ -1,16 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.LowLevel;
 
 namespace Mr_Sanmi.AI_Agents
 {
     public class PlayersAvatar : Agent
     {
         #region References
-
-        #endregion
-
-        #region
 
         #endregion
 
@@ -33,16 +28,14 @@ namespace Mr_Sanmi.AI_Agents
 
         private void FixedUpdate()
         {
-            
+
         }
 
         #endregion
 
-
         #region LocalMethods
 
         #endregion
-
 
         #region PublicMethods
 
@@ -74,7 +67,6 @@ namespace Mr_Sanmi.AI_Agents
         }
 
         #endregion
-
 
         #region GettersAndSetters
 

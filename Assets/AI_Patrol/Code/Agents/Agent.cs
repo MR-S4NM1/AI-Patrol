@@ -16,8 +16,6 @@ namespace Mr_Sanmi.AI_Agents
 
         #region RuntimeVariables
 
-        [SerializeField] protected float rotationSpeed;
-
         #endregion
 
         #region UnityMethods
