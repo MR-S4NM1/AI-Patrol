@@ -8,7 +8,6 @@ namespace Mr_Sanmi.AI_Agents
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("I entered the state: " + state.ToString() + " :P");
             animator.gameObject.GetComponent<FiniteStateMachine>().EnteredState(state);
         }
     }

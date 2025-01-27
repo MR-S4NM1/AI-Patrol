@@ -1,7 +1,7 @@
 using System;
+using Unity.Mathematics;
 using UnityEditorInternal;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace Mr_Sanmi.AI_Agents
 {
@@ -37,8 +37,9 @@ namespace Mr_Sanmi.AI_Agents
         #region RuntimeVariables
 
         [SerializeField] protected States _state;
-        [SerializeField] protected Vector3 _movementDirection;
+        [SerializeField] public Vector3 _movementDirection;
         [SerializeField] protected float _movementSpeed;
+        [SerializeField] protected Transform _transform;
 
         #endregion
 
@@ -67,15 +68,20 @@ namespace Mr_Sanmi.AI_Agents
 
         }
 
+        private void FixedUpdate()
+        {
+            _rb.linearVelocity = _movementDirection * _movementSpeed;
+        }
+
         #endregion
 
         #region PublicMethods
 
         public void EnteredState(States value)
         {
-            Debug.Log("FSM - EnteredStated(): Entered the finite state " + value);
-            // TODO: Clean all animator parameters with cooldown
+            FinalizeState();
             _state = value;
+            InitializeState();
             Invoke("CleanAnimatorFlags", 0.1f);
         }
 
@@ -94,6 +100,8 @@ namespace Mr_Sanmi.AI_Agents
             {
                 _agent = GetComponent<Agent>();
             }
+
+            InitializeIdleState();
         }
 
         protected void CleanAnimatorFlags()
@@ -104,10 +112,95 @@ namespace Mr_Sanmi.AI_Agents
             }
         }
 
+        protected void InitializeState()
+        {
+            switch (_state)
+            {
+                case States.IDLE:
+                    InitializeIdleState();
+                    break;
+                case States.MOVING:
+                    InitializeMovingState();
+                    break;
+                case States.TURNING:
+                    InitializeTurningState();
+                    break;
+            }
+        }
+
+        protected void FinalizeState()
+        {
+            switch (_state)
+            {
+                case States.IDLE:
+                    FinalizeIdleState();
+                    break;
+                case States.MOVING:
+                    FinalizeMovingState();
+                    break;
+                case States.TURNING:
+                    FinalizeTurningState();
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region IdleState
+
+        protected void InitializeIdleState()
+        {
+            //_movementSpeed = 0;
+        }
+
+        protected void FinalizeIdleState() 
+        {
+            
+        }
+
+        #endregion
+
+        #region MovingState
+
+        protected void InitializeMovingState()
+        {
+            switch (_agent)
+            {
+                case PlayersAvatar:
+                    _movementSpeed = 3.0f;
+                    break;
+                case EnemyNPC:
+                    break;
+            }
+        }
+
+        protected void FinalizeMovingState()
+        {
+
+        }
+
+        #endregion
+
+        #region TurningState
+
+        protected void InitializeTurningState()
+        {
+
+        }
+
+        protected void FinalizeTurningState()
+        {
+
+        }
+
         #endregion
 
         #region GettersAndSettters
 
+        public float SetMovementSpeed
+        {
+            set { _movementSpeed = value; }
+        }
 
         #endregion
     }
