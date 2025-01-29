@@ -58,7 +58,7 @@ namespace Mr_Sanmi.AI_Agents
                 fsm._movementDirection.x = value.ReadValue<Vector2>().x;
                 fsm._movementDirection.z = value.ReadValue<Vector2>().y;
 
-                if (fsm._movementDirection.magnitude <= 0.05f)
+                if (fsm._movementDirection.magnitude <= 0.1f)
                 {
                     fsm.StateMechanic(StateMechanic.STOP);
                     fsm._movementDirection = Vector3.zero;

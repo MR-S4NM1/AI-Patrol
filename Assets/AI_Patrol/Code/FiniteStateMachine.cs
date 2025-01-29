@@ -87,11 +87,11 @@ namespace Mr_Sanmi.AI_Agents
             FinalizeState();
             _state = value;
             InitializeState();
-            Invoke("CleanAnimatorFlags", 0.1f);
         }
 
         public void StateMechanic(StateMechanic value)
         {
+            CleanAnimatorFlags();
             _anim.SetBool(value.ToString(), true);
         }
 
@@ -170,6 +170,7 @@ namespace Mr_Sanmi.AI_Agents
         protected void InitializeIdleState()
         {
             //_movementSpeed = 0;
+            _rb.angularVelocity = Vector3.zero;
         }
 
         protected void FinalizeIdleState() 
