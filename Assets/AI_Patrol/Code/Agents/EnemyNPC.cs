@@ -4,6 +4,7 @@ namespace Mr_Sanmi.AI_Agents
 {
     public class EnemyNPC : Agent
     {
+        #region UnityMethods
         private void OnDrawGizmos()
         {
             if (fsm == null)
@@ -20,6 +21,12 @@ namespace Mr_Sanmi.AI_Agents
         {
 
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+
+        }
+        #endregion
     }
 
 }
