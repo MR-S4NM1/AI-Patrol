@@ -6,7 +6,7 @@ namespace Mr_Sanmi.AI_Agents
     {
         #region References
 
-        [SerializeField] public FiniteStateMachine fsm;
+        [SerializeField] protected FiniteStateMachine _fsm;
 
         #endregion
 
@@ -22,9 +22,9 @@ namespace Mr_Sanmi.AI_Agents
 
         private void OnDrawGizmos()
         {
-            if(fsm == null)
+            if(_fsm == null)
             {
-                fsm = GetComponent<FiniteStateMachine>();
+                _fsm = GetComponent<FiniteStateMachine>();
             }
         }
 
