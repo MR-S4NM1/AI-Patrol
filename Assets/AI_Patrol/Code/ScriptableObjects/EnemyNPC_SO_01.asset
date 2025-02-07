@@ -15,19 +15,15 @@ MonoBehaviour:
   patrolBehaviours:
   - stateMechanic: 0
     movSpeed: 0
-    durationTime: 0
-    destinyDirection: {x: 0, y: 0, z: 0}
-  - stateMechanic: 1
-    movSpeed: 0
-    durationTime: 0
+    durationTime: 5
     destinyDirection: {x: 0, y: 0, z: 0}
   - stateMechanic: 2
     movSpeed: 0
-    durationTime: 0
+    durationTime: 5
     destinyDirection: {x: 0, y: 0, z: 0}
   visionCodeParameters:
     distance: 5
-    fieldOfView: 50
+    fieldOfView: 7
   spawnParameters:
     position: {x: 2, y: 0, z: 2}
     rotation: {x: 0, y: 180, z: 0}

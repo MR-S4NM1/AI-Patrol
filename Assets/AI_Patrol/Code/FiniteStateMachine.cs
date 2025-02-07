@@ -40,6 +40,7 @@ namespace Mr_Sanmi.AI_Agents
 
         [SerializeField] protected States _state;
         [SerializeField] public Vector3 _movementDirection;
+        [SerializeField] public Vector3 _angularVelocity;
         [SerializeField] protected float _movementSpeed;
         [SerializeField] protected Transform _transform;
         [SerializeField] protected Vector3 _lookDirection;

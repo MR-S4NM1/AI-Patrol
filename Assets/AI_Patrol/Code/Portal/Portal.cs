@@ -8,7 +8,6 @@ namespace Mr_Sanmi.AI_Agents
         {
             if (other.CompareTag("Player"))
             {
-                Debug.Log("AHHHHHHHHHHHHHHHHHHHH");
                 GameReferee.instance.ChangeToVictoryScene();
             }
         }

@@ -18,8 +18,8 @@ MonoBehaviour:
     durationTime: 0
     destinyDirection: {x: 0, y: 0, z: 0}
   visionCodeParameters:
-    distance: 5
-    fieldOfView: 50
+    distance: 3
+    fieldOfView: 1
   spawnParameters:
     position: {x: -3, y: 0, z: -2}
     rotation: {x: 0, y: 270, z: 0}

@@ -4,12 +4,6 @@ using UnityEngine;
 
 namespace Mr_Sanmi.AI_Agents
 {
-    public enum EnemyBehavioursState
-    {
-        STOP,
-        MOVE,
-        TURN
-    }
 
     public class EnemyNPC : Agent
     {
@@ -22,10 +16,10 @@ namespace Mr_Sanmi.AI_Agents
         #region RuntimeVariables
 
         protected PatrolBehaviours _currentEnemyBehaviour;
-        protected EnemyBehavioursState _currentEnemyBehaviourState;
         protected int _currentEnemyBehaviourIndex;
-        protected Transform _avatarsTransform;
+        [SerializeField] protected Transform _avatarsTransform;
         protected StateMechanics _previousMovementStateMechanic;
+        protected RaycastHit _currentRaycastHit;
 
         #endregion
 
@@ -57,9 +51,60 @@ namespace Mr_Sanmi.AI_Agents
             
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
+            //if (other.gameObject.layer == LayerMask.GetMask("Avatar"))
+            //{
+            //    _playersTransform = other.gameObject.transform;
+            //    Debug.Log("¡Te encontré!");
+            //}
 
+            if (other.gameObject.layer == LayerMask.NameToLayer("Avatar"))
+            {
+                _avatarsTransform = other.gameObject.transform;
+
+                Debug.Log("¡Ya te vi!");
+
+                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
+                    out _currentRaycastHit, 50, LayerMask.GetMask("Obstacle")))
+                {
+                    print("YESSSSSSSSSSSS");
+                    return;
+                }
+                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
+                    out _currentRaycastHit, 50, LayerMask.GetMask("Avatar")))
+                {
+                    print("NOOOOOOOOOOOOOO");
+                }
+            }
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            //if (other.gameObject.layer == LayerMask.GetMask("Avatar"))
+            //{
+            //    _playersTransform = other.gameObject.transform;
+            //    Debug.Log("¡Te encontré!");
+            //}
+
+            if (other.gameObject.layer == LayerMask.NameToLayer("Avatar"))
+            {
+                _avatarsTransform = other.gameObject.transform;
+
+                Debug.Log("¡Ya te vi!");
+
+                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
+                    out _currentRaycastHit, 5, LayerMask.GetMask("Obstacle")))
+                {
+                    print("YESSSSSSSSSSSS");
+                    return;
+                }
+                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
+                    out _currentRaycastHit, 5, LayerMask.GetMask("Avatar")))
+                {
+                    print("NOOOOOOOOOOOOOO");
+                }
+            }
         }
 
         #endregion
@@ -151,7 +196,7 @@ namespace Mr_Sanmi.AI_Agents
             //CalculateStateMechanicDirection();
             InvokeStateMechanic();
 
-            if (_currentEnemyBehaviour.durationTime > 0)
+            if (_currentEnemyBehaviour.durationTime >= 0)
             {
                 StartCoroutine(TimerForEnemyBehaviour());
             }
@@ -162,7 +207,6 @@ namespace Mr_Sanmi.AI_Agents
         #region SubStateMachineMethods
 
         #region StopSubStateMachineMethods
-
         protected virtual void InitializeStopSubStateMachine()
         {
             _fsm.SetMovementSpeed = 0.0f;
@@ -204,7 +248,7 @@ namespace Mr_Sanmi.AI_Agents
 
         protected virtual void InitializeTurnSubStateMachine()
         {
-
+            print("I'M ROTATING!");
         }
 
         protected virtual void ExecutingTurnSubStateMachine()

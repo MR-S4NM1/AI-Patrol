@@ -49,7 +49,6 @@ namespace Mr_Sanmi.AI_Agents
             if (value.performed) // Update from the input
             {
                 _fsm.StateMechanic(StateMechanic.MOVE);
-                Debug.Log("OnMove: " + value.ReadValue<Vector2>());
                 _fsm._movementDirection.x = value.ReadValue<Vector2>().x;
                 _fsm._movementDirection.z = value.ReadValue<Vector2>().y;
             }

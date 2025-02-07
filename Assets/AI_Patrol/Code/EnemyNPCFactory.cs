@@ -9,16 +9,19 @@ namespace Mr_Sanmi.AI_Agents
 
         [Header("Parameters")]
         [SerializeField] protected GameObject enemyPrefab;
+        [SerializeField] protected GameObject enemyVisionConePrefab;
         [SerializeField] protected EnemyNPC_SO[] enemiesScriptableObjects;
 
         [Header("Runtime Variables")]
         [SerializeField] protected List<GameObject> enemyInstancesGameObject;
+        [SerializeField] protected List<GameObject> enemyVisionConeInstancesGameObject;
 
         #endregion
 
         #region RuntimeVariables
 
         GameObject enemyInstanceGameObject;
+        GameObject enemyVisionConeInstanceGameObject;
 
         #endregion
 
@@ -33,6 +36,7 @@ namespace Mr_Sanmi.AI_Agents
             {
                 // Generate the instance of a new Enemy NPC, baser on the prefab.
                 enemyInstanceGameObject = Instantiate(enemyPrefab);
+                enemyVisionConeInstanceGameObject = Instantiate(enemyVisionConePrefab);
 
                 // According to the data from the Scriptable Object,
                 // We set the position and rotation of the Enemy.
@@ -44,10 +48,18 @@ namespace Mr_Sanmi.AI_Agents
                 enemyInstanceGameObject.transform.parent = this.gameObject.transform;
 
                 // TODO: Add Patrol Behaviour data.
+                enemyInstanceGameObject.GetComponent<EnemyNPC>().enemyNPC_SO = enemy;
+
                 // TODO: Generate the vision cone, according to the SO.
+                enemyVisionConeInstanceGameObject.transform.position = enemyInstanceGameObject.transform.position;
+                enemyVisionConeInstanceGameObject.transform.rotation = Quaternion.Euler(enemy.spawnParameters.rotation);
+                enemyVisionConeInstanceGameObject.transform.localScale = new Vector3(
+                    enemy.visionCodeParameters.fieldOfView, 1.0f, enemy.visionCodeParameters.distance);
+                enemyVisionConeInstanceGameObject.transform.SetParent(enemyInstanceGameObject.transform);
 
                 // Add the enemy instance for a future deletion of this enemy.
                 enemyInstancesGameObject.Add(enemyInstanceGameObject);
+                enemyVisionConeInstancesGameObject.Add(enemyVisionConeInstanceGameObject);
             }
         }
 
@@ -58,8 +70,13 @@ namespace Mr_Sanmi.AI_Agents
                 enemyInstanceGameObject = enemyInstancesGameObject[i];
                 enemyInstancesGameObject.Remove(enemyInstanceGameObject);
                 DestroyImmediate(enemyInstanceGameObject);
+
+                enemyVisionConeInstanceGameObject = enemyVisionConeInstancesGameObject[i];
+                enemyVisionConeInstancesGameObject.Remove(enemyVisionConeInstanceGameObject);
+                DestroyImmediate(enemyVisionConeInstanceGameObject);
             }
             enemyInstancesGameObject.Clear();
+            enemyVisionConeInstancesGameObject.Clear();
         }
 
         #endregion
