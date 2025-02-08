@@ -343,6 +343,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 0010d5f9b8e6eb145b7d3cc5f6b33fa6, type: 2}
+    - target: {fileID: 5995470702985712237, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
+      propertyPath: m_Mass
+      value: 0.0000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5995470702985712237, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8401598454463883812, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
       propertyPath: m_Name
       value: EnemyNPC
@@ -391,6 +399,7 @@ MonoBehaviour:
   _fsm: {fileID: 7541165898103207218}
   enemyNPC_SO: {fileID: 0}
   _avatarsTransform: {fileID: 0}
+  _currentVelocity: 0
 --- !u!136 &7901528530512388237
 CapsuleCollider:
   m_ObjectHideFlags: 0

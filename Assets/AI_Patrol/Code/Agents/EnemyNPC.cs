@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Mr_Sanmi.AI_Agents
@@ -20,6 +21,9 @@ namespace Mr_Sanmi.AI_Agents
         [SerializeField] protected Transform _avatarsTransform;
         protected StateMechanics _previousMovementStateMechanic;
         protected RaycastHit _currentRaycastHit;
+        protected float _newAngle;
+        [SerializeField] protected float _currentVelocity;
+        protected float _targetAngle;
 
         #endregion
 
@@ -38,71 +42,36 @@ namespace Mr_Sanmi.AI_Agents
 
         void Update()
         {
-
+            ExecutingSubState();
         }
 
         private void FixedUpdate()
         {
-            ExecutingSubState();
+
         }
 
         private void OnEnable()
         {
-            
+            InitializePatrolBehaviour();
         }
 
         private void OnTriggerStay(Collider other)
         {
-            //if (other.gameObject.layer == LayerMask.GetMask("Avatar"))
-            //{
-            //    _playersTransform = other.gameObject.transform;
-            //    Debug.Log("¡Te encontré!");
-            //}
-
             if (other.gameObject.layer == LayerMask.NameToLayer("Avatar"))
             {
-                _avatarsTransform = other.gameObject.transform;
+                _avatarsTransform = other.gameObject.transform;;
 
-                Debug.Log("¡Ya te vi!");
-
-                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
-                    out _currentRaycastHit, 50, LayerMask.GetMask("Obstacle")))
+                if (Physics.Linecast(transform.position, _avatarsTransform.position, out _currentRaycastHit))
                 {
-                    print("YESSSSSSSSSSSS");
-                    return;
-                }
-                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
-                    out _currentRaycastHit, 50, LayerMask.GetMask("Avatar")))
-                {
-                    print("NOOOOOOOOOOOOOO");
-                }
-            }
-        }
-
-        private void OnCollisionEnter(Collision other)
-        {
-            //if (other.gameObject.layer == LayerMask.GetMask("Avatar"))
-            //{
-            //    _playersTransform = other.gameObject.transform;
-            //    Debug.Log("¡Te encontré!");
-            //}
-
-            if (other.gameObject.layer == LayerMask.NameToLayer("Avatar"))
-            {
-                _avatarsTransform = other.gameObject.transform;
-
-                Debug.Log("¡Ya te vi!");
-
-                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
-                    out _currentRaycastHit, 5, LayerMask.GetMask("Obstacle")))
-                {
-                    print("YESSSSSSSSSSSS");
-                    return;
-                }
-                if (Physics.Raycast(this.gameObject.transform.position, _avatarsTransform.position,
-                    out _currentRaycastHit, 5, LayerMask.GetMask("Avatar")))
-                {
-                    print("NOOOOOOOOOOOOOO");
+                    if (_currentRaycastHit.collider.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+                    {
+                        print("¡No veo nada!");
+                    }
+                    if (_currentRaycastHit.collider.gameObject.layer == LayerMask.NameToLayer("Avatar"))
+                    {
+                        print("¡Ya te vi!");
+                        SceneChanger.instance.ChangeSceneTo(0);
+                    }
                 }
             }
         }
@@ -202,6 +171,28 @@ namespace Mr_Sanmi.AI_Agents
             }
         }
 
+        protected void InitializePatrolBehaviour()
+        {
+            StopAllCoroutines();
+            _currentEnemyBehaviourIndex = 0;
+
+            if (enemyNPC_SO.patrolBehaviours.Length > 0)
+            {
+                _currentEnemyBehaviour = enemyNPC_SO.patrolBehaviours[0];
+            }
+            else
+            {
+                _currentEnemyBehaviour.stateMechanic = StateMechanics.STOP;
+                _currentEnemyBehaviour.durationTime = -1;
+            }
+            InitializeSubState();
+            InvokeStateMechanic();
+            if (_currentEnemyBehaviour.durationTime > 0)
+            {
+                StartCoroutine(TimerForEnemyBehaviour());
+            }
+        }
+
         #endregion
 
         #region SubStateMachineMethods
@@ -211,6 +202,7 @@ namespace Mr_Sanmi.AI_Agents
         {
             _fsm.SetMovementSpeed = 0.0f;
             _fsm._movementDirection = Vector3.zero;
+            _fsm._angularVelocity = Vector3.zero;
         }
 
         protected virtual void ExecutingStopSubStateMachine()
@@ -249,11 +241,20 @@ namespace Mr_Sanmi.AI_Agents
         protected virtual void InitializeTurnSubStateMachine()
         {
             print("I'M ROTATING!");
+            _newAngle = _currentEnemyBehaviour.destinyDirection.y / _currentEnemyBehaviour.durationTime;
         }
 
         protected virtual void ExecutingTurnSubStateMachine()
         {
-
+            if (_currentEnemyBehaviour.durationTime > 0)
+            {
+                transform.Rotate(Vector3.up * Time.deltaTime * _newAngle);
+            }
+            else
+            {
+                _newAngle = _currentEnemyBehaviour.destinyRotation.y;
+                transform.rotation = Quaternion.Euler(0, _newAngle, 0);
+            }
         }
 
         protected virtual void FinalizeTurnSubStateMachine()

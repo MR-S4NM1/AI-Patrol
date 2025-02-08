@@ -22,6 +22,7 @@ namespace Mr_Sanmi.AI_Agents
         public float movSpeed;
         public float durationTime;
         [SerializeField] public Vector3 destinyDirection;
+        [SerializeField] public Vector3 destinyRotation;
     }
 
     [System.Serializable]
