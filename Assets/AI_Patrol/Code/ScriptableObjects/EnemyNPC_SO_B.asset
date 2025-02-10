@@ -17,9 +17,10 @@ MonoBehaviour:
     movSpeed: 0
     durationTime: 0
     destinyDirection: {x: 0, y: 0, z: 0}
+    destinyRotation: {x: 0, y: 0, z: 0}
   visionCodeParameters:
     distance: 3
     fieldOfView: 1
   spawnParameters:
-    position: {x: -3, y: 0, z: -2}
-    rotation: {x: 0, y: 270, z: 0}
+    position: {x: -39.5, y: 0, z: -0.5}
+    rotation: {x: 0, y: 0, z: 0}

@@ -34,8 +34,8 @@ MonoBehaviour:
     destinyDirection: {x: 0, y: 360, z: 0}
     destinyRotation: {x: 0, y: 180, z: 0}
   visionCodeParameters:
-    distance: 5
-    fieldOfView: 7
+    distance: 4.5
+    fieldOfView: 4
   spawnParameters:
-    position: {x: 2, y: 0, z: 2}
-    rotation: {x: 0, y: 180, z: 0}
+    position: {x: -33.73, y: 0, z: -1.5}
+    rotation: {x: 0, y: 0, z: 0}
