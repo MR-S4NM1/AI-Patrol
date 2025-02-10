@@ -22,10 +22,10 @@ namespace Mr_Sanmi.AI_Agents
 
         private void OnDrawGizmos()
         {
-            if(_fsm == null)
-            {
-                _fsm = GetComponent<FiniteStateMachine>();
-            }
+            //if(_fsm == null)
+            //{
+            //    _fsm = GetComponent<FiniteStateMachine>();
+            //}
         }
 
         void Start()

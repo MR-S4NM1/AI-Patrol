@@ -13,26 +13,26 @@ MonoBehaviour:
   m_Name: EnemyNPC_SO_D
   m_EditorClassIdentifier: 
   patrolBehaviours:
-  - stateMechanic: 0
+  - stateMechanic: 2
     movSpeed: 0
     durationTime: 3
     destinyDirection: {x: 0, y: 0, z: 0}
     destinyRotation: {x: 0, y: 0, z: 0}
-  - stateMechanic: 2
-    movSpeed: 0
-    durationTime: 2
-    destinyDirection: {x: 0, y: 0, z: 0}
-    destinyRotation: {x: 0, y: 180, z: 0}
   - stateMechanic: 0
     movSpeed: 0
-    durationTime: 5
+    durationTime: 1
     destinyDirection: {x: 0, y: 0, z: 0}
     destinyRotation: {x: 0, y: 0, z: 0}
   - stateMechanic: 2
     movSpeed: 0
     durationTime: 4
-    destinyDirection: {x: 0, y: 180, z: 0}
+    destinyDirection: {x: 0, y: 0, z: 0}
     destinyRotation: {x: 0, y: 180, z: 0}
+  - stateMechanic: 0
+    movSpeed: 0
+    durationTime: 1
+    destinyDirection: {x: 0, y: 0, z: 0}
+    destinyRotation: {x: 0, y: 0, z: 0}
   visionCodeParameters:
     distance: 2.5
     fieldOfView: 2.5

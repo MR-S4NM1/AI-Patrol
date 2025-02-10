@@ -44,6 +44,7 @@ namespace Mr_Sanmi.AI_Agents
         [SerializeField] protected float _movementSpeed;
         [SerializeField] protected Transform _transform;
         [SerializeField] protected Vector3 _lookDirection;
+        [SerializeField] protected float _fDTime;
 
         #endregion
 
@@ -51,15 +52,7 @@ namespace Mr_Sanmi.AI_Agents
 
         private void OnDrawGizmos()
         {
-            if(_rb == null)
-            {
-                _rb = GetComponent<Rigidbody>();
-            }
 
-            if(_anim == null)
-            {
-                _anim = GetComponent<Animator>();
-            }
         }
 
         void Start()
@@ -96,6 +89,21 @@ namespace Mr_Sanmi.AI_Agents
             _anim.SetBool(value.ToString(), true);
         }
 
+        public void RBRotation(Quaternion start, Quaternion end, float time)
+        {
+            _rb.rotation = Quaternion.Lerp(start, end, time);
+        }
+
+        public void SetRBRotation(Vector3 rotation)
+        {
+            _rb.rotation = Quaternion.Euler(rotation);
+        }
+
+        public Quaternion GetRBRotation()
+        {
+            return _rb.rotation;
+        }
+
         #endregion
 
         #region LocalMethods
@@ -105,6 +113,16 @@ namespace Mr_Sanmi.AI_Agents
             if (_agent == null)
             {
                 _agent = GetComponent<Agent>();
+            }
+
+            if (_anim == null)
+            {
+                _anim = GetComponent<Animator>();
+            }
+
+            if (_rb == null)
+            {
+                _rb = GetComponent<Rigidbody>();
             }
 
             InitializeIdleState();

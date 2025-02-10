@@ -16,7 +16,7 @@ namespace Mr_Sanmi.AI_Agents
 
         #region RuntimeVariables
 
-        protected PatrolBehaviours _currentEnemyBehaviour;
+        [SerializeField] protected PatrolBehaviours _currentEnemyBehaviour;
         protected int _currentEnemyBehaviourIndex;
         [SerializeField] protected Transform _avatarsTransform;
         protected StateMechanics _previousMovementStateMechanic;
@@ -24,6 +24,11 @@ namespace Mr_Sanmi.AI_Agents
         protected float _newAngle;
         [SerializeField] protected float _currentVelocity;
         protected float _targetAngle;
+        protected Coroutine _currentEnemyRoutine;
+        protected float _fDTime;
+        protected Quaternion _startRot;
+        protected Quaternion _endRot;
+        protected bool _isStillRotating;
 
         #endregion
 
@@ -34,24 +39,26 @@ namespace Mr_Sanmi.AI_Agents
         }
         void Start()
         {
-            if (_fsm == null)
-            {
-                _fsm = GetComponent<FiniteStateMachine>();
-            }
+
         }
 
         void Update()
         {
-            ExecutingSubState();
+
         }
 
         private void FixedUpdate()
         {
-
+            ExecutingSubState();
         }
 
         private void OnEnable()
         {
+            if (_fsm == null)
+            {
+                _fsm = GetComponent<FiniteStateMachine>();
+            }
+
             InitializePatrolBehaviour();
         }
 
@@ -79,22 +86,6 @@ namespace Mr_Sanmi.AI_Agents
         #endregion
 
         #region LocalMethods
-
-        protected virtual void InvokeStateMechanic()
-        {
-            switch (_currentEnemyBehaviour.stateMechanic)
-            {
-                case StateMechanics.STOP:
-                    _fsm.StateMechanic(StateMechanic.STOP);
-                    break;
-                case StateMechanics.MOVE:
-                    _fsm.StateMechanic(StateMechanic.MOVE);
-                    break;
-                case StateMechanics.TURN:
-                    _fsm.StateMechanic(StateMechanic.TURN);
-                    break;
-            }
-        }
 
         protected virtual void InitializeSubState()
         {
@@ -148,6 +139,10 @@ namespace Mr_Sanmi.AI_Agents
         {
             yield return new WaitForSeconds(_currentEnemyBehaviour.durationTime);
             FinalizeSubState();
+            //if (_currentEnemyRoutine != null)
+            //{
+            //    StopCoroutine(_currentEnemyRoutine);
+            //}
             GoToNextEnemyBehaviour();
         }
 
@@ -163,12 +158,6 @@ namespace Mr_Sanmi.AI_Agents
 
             InitializeSubState();
             //CalculateStateMechanicDirection();
-            InvokeStateMechanic();
-
-            if (_currentEnemyBehaviour.durationTime >= 0)
-            {
-                StartCoroutine(TimerForEnemyBehaviour());
-            }
         }
 
         protected void InitializePatrolBehaviour()
@@ -186,11 +175,16 @@ namespace Mr_Sanmi.AI_Agents
                 _currentEnemyBehaviour.durationTime = -1;
             }
             InitializeSubState();
-            InvokeStateMechanic();
-            if (_currentEnemyBehaviour.durationTime > 0)
-            {
-                StartCoroutine(TimerForEnemyBehaviour());
-            }
+
+            //if (_currentEnemyBehaviour.durationTime > 0)
+            //{
+            //    Invoke("InvokeCorroutine", 0.1f);
+            //}
+        }
+
+        protected virtual void InvokeCorroutine()
+        {
+            _currentEnemyRoutine = StartCoroutine(TimerForEnemyBehaviour());
         }
 
         #endregion
@@ -203,6 +197,12 @@ namespace Mr_Sanmi.AI_Agents
             _fsm.SetMovementSpeed = 0.0f;
             _fsm._movementDirection = Vector3.zero;
             _fsm._angularVelocity = Vector3.zero;
+            _fsm.StateMechanic(StateMechanic.STOP);
+
+            if (_currentEnemyBehaviour.durationTime >= 0)
+            {
+                Invoke("InvokeCorroutine", 0f);
+            }
         }
 
         protected virtual void ExecutingStopSubStateMachine()
@@ -221,7 +221,12 @@ namespace Mr_Sanmi.AI_Agents
 
         protected virtual void InitializeMoveSubStateMachine()
         {
+            _fsm.StateMechanic(StateMechanic.MOVE);
 
+            //if (_currentEnemyBehaviour.durationTime >= 0)
+            //{
+            //    Invoke("InvokeCorroutine", 0f);
+            //}
         }
 
         protected virtual void ExecutingMoveSubStateMachine()
@@ -240,20 +245,49 @@ namespace Mr_Sanmi.AI_Agents
 
         protected virtual void InitializeTurnSubStateMachine()
         {
-            print("I'M ROTATING!");
-            _newAngle = _currentEnemyBehaviour.destinyDirection.y / _currentEnemyBehaviour.durationTime;
+            print("I WILL START ROTATING!");
+            //_newAngle = _currentEnemyBehaviour.destinyRotation.y / _currentEnemyBehaviour.durationTime;
+            print("DestinyRotation" + _currentEnemyBehaviour.destinyRotation);
+            print("DurationTime" + _currentEnemyBehaviour.durationTime);
+            _fsm.StateMechanic(StateMechanic.TURN);
+            _isStillRotating = true;
+            _fDTime = 0f;
+            _startRot = _fsm.GetRBRotation();
+            _endRot = Quaternion.Euler(_currentEnemyBehaviour.destinyRotation);
+
+            if (_currentEnemyBehaviour.durationTime >= 0)
+            {
+                Invoke("InvokeCorroutine", 0f);
+            }
         }
 
         protected virtual void ExecutingTurnSubStateMachine()
         {
-            if (_currentEnemyBehaviour.durationTime > 0)
+            //Debug.LogWarning("I'm Rotating, " + transform.rotation.eulerAngles.y + " - New Angle " + _newAngle);
+            if (_isStillRotating && _currentEnemyBehaviour.durationTime > 0.1f)
             {
-                transform.Rotate(Vector3.up * Time.deltaTime * _newAngle);
+                _fDTime += Time.fixedDeltaTime; 
+
+                float time = _fDTime / _currentEnemyBehaviour.durationTime;
+
+                //if (time >= 1f)
+                //{
+                //    //Debug.Break();
+                //    _fsm.SetRBRotation(_currentEnemyBehaviour.destinyRotation);
+                //    _isStillRotating = false;
+                //}
+                //else
+                //{
+                    _fsm.RBRotation(_startRot, _endRot, time);
+                //}
+
+                //transform.Rotate(Vector3.up * Time.fixedDeltaTime * _newAngle);
             }
-            else
+            else if(_isStillRotating)
             {
-                _newAngle = _currentEnemyBehaviour.destinyRotation.y;
-                transform.rotation = Quaternion.Euler(0, _newAngle, 0);
+                //_newAngle = _currentEnemyBehaviour.destinyRotation.y;
+                _fsm.SetRBRotation(_currentEnemyBehaviour.destinyRotation);
+                _isStillRotating = false;
             }
         }
 
