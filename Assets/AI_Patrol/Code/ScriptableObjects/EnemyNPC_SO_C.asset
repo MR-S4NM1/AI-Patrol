@@ -22,7 +22,7 @@ MonoBehaviour:
     movSpeed: 0
     durationTime: 0
     destinyDirection: {x: 0, y: 0, z: 0}
-    destinyRotation: {x: 0, y: 0, z: 0}
+    destinyRotation: {x: 0, y: 180, z: 0}
   - stateMechanic: 0
     movSpeed: 0
     durationTime: 4
@@ -31,8 +31,8 @@ MonoBehaviour:
   - stateMechanic: 2
     movSpeed: 0
     durationTime: 0
-    destinyDirection: {x: 0, y: 360, z: 0}
-    destinyRotation: {x: 0, y: 180, z: 0}
+    destinyDirection: {x: 0, y: 0, z: 0}
+    destinyRotation: {x: 0, y: 0, z: 0}
   visionCodeParameters:
     distance: 4.5
     fieldOfView: 4
