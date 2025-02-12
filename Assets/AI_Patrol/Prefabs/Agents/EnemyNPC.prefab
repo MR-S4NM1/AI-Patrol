@@ -376,9 +376,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8401598454463883812, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
       insertIndex: 2
       addedObject: {fileID: 8171440279241155858}
-    - targetCorrespondingSourceObject: {fileID: 8401598454463883812, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7901528530512388237}
   m_SourcePrefab: {fileID: 100100000, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}
 --- !u!1 &358551799447202492 stripped
 GameObject:
@@ -399,31 +396,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fsm: {fileID: 7541165898103207218}
   enemyNPC_SO: {fileID: 0}
+  _currentEnemyBehaviour:
+    stateMechanic: 0
+    movSpeed: 0
+    durationTime: 0
+    destinyDirection: {x: 0, y: 0, z: 0}
+    destinyRotation: {x: 0, y: 0, z: 0}
   _avatarsTransform: {fileID: 0}
   _currentVelocity: 0
---- !u!136 &7901528530512388237
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358551799447202492}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.14
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.39, z: 0}
 --- !u!114 &7541165898103207218 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1785175720680617386, guid: 93906b92a0723c441a737a0c9f0dda7a, type: 3}

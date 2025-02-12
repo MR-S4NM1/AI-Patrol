@@ -94,12 +94,18 @@ namespace Mr_Sanmi.AI_Agents
             _rb.rotation = Quaternion.Lerp(start, end, time);
         }
 
+        public void RBRotationWhileMoving(Vector3 start, Vector3 end, float time)
+        {
+            _rb.rotation = Quaternion.Lerp(Quaternion.Euler(start), 
+                Quaternion.LookRotation(start, end), time);
+        }
+
         public void SetRBRotation(Vector3 rotation)
         {
             _rb.rotation = Quaternion.Euler(rotation);
         }
 
-        public Quaternion GetRBRotation()
+        public Quaternion GetActualRBRotation()
         {
             return _rb.rotation;
         }
@@ -253,6 +259,16 @@ namespace Mr_Sanmi.AI_Agents
         public float SetMovementSpeed
         {
             set { _movementSpeed = value; }
+        }
+
+        public Quaternion GetRBRotation()
+        {
+            return _rb.rotation;
+        }
+
+        public Vector3 GetLinearVelocity()
+        {
+            return _rb.linearVelocity;
         }
 
         #endregion

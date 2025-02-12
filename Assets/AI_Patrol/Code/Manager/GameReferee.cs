@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Mr_Sanmi.AI_Agents
@@ -7,6 +8,8 @@ namespace Mr_Sanmi.AI_Agents
         #region References
 
         public static GameReferee instance;
+        [SerializeField] protected PlayersAvatar _avatar;
+        [SerializeField] protected Transform _initialPlayersPos;
 
         #endregion
 
@@ -18,6 +21,7 @@ namespace Mr_Sanmi.AI_Agents
             {
                 instance = this;
             }
+            _avatar = FindAnyObjectByType<PlayersAvatar>();
         }
 
         #endregion
@@ -27,6 +31,11 @@ namespace Mr_Sanmi.AI_Agents
         public void ChangeToVictoryScene() 
         {
             SceneChanger.instance.ChangeSceneTo(1);
+        }
+        
+        public void ResetPlayersPosition()
+        {
+            _avatar.gameObject.transform.position = _initialPlayersPos.position;
         }
 
         #endregion
