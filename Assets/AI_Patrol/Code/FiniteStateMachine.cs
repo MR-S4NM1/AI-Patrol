@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Mr_Sanmi.AI_Agents
 {
@@ -94,10 +95,12 @@ namespace Mr_Sanmi.AI_Agents
             _rb.rotation = Quaternion.Lerp(start, end, time);
         }
 
-        public void RBRotationWhileMoving(Vector3 start, Vector3 end, float time)
+        public void RBRotationWhileMoving(Vector3 start, Vector3 end, float speed)
         {
-            _rb.rotation = Quaternion.Lerp(Quaternion.Euler(start), 
-                Quaternion.LookRotation(start, end), time);
+            //_rb.rotation = Quaternion.Lerp(Quaternion.Euler(start), 
+            //    Quaternion.LookRotation(end - start, Vector3.up), time);
+
+            Quaternion.RotateTowards(Quaternion.Euler(start), Quaternion.Euler(end), speed);
         }
 
         public void SetRBRotation(Vector3 rotation)
@@ -105,9 +108,9 @@ namespace Mr_Sanmi.AI_Agents
             _rb.rotation = Quaternion.Euler(rotation);
         }
 
-        public Quaternion GetActualRBRotation()
+        public void SetRBQuaternionRotation(Quaternion rotation)
         {
-            return _rb.rotation;
+            _rb.rotation = rotation;
         }
 
         #endregion
@@ -269,6 +272,11 @@ namespace Mr_Sanmi.AI_Agents
         public Vector3 GetLinearVelocity()
         {
             return _rb.linearVelocity;
+        }
+
+        public Vector3 GetRBPosition()
+        {
+            return _rb.position;
         }
 
         #endregion

@@ -40,9 +40,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5953342918337548274}
     m_Modifications:
+    - target: {fileID: 1148631233688841592, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1390898412859461919, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1390898412859461919, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -50,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1390898412859461919, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1390898412859461919, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -93,8 +97,12 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5583153429139853642, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583153429139853642, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_VersionIndex
-      value: 390
+      value: 393
       objectReference: {fileID: 0}
     - target: {fileID: 5583153429139853642, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_Faces.Array.size
@@ -6437,8 +6445,12 @@ PrefabInstance:
       value: 99
       objectReference: {fileID: 0}
     - target: {fileID: 7085826175291914767, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7085826175291914767, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_ProvidesContacts
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7085826175291914767, guid: 51b6a80356242db4fb56962b95ad808b, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits

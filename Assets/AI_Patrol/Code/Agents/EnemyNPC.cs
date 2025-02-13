@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Mr_Sanmi.AI_Agents
@@ -34,6 +35,8 @@ namespace Mr_Sanmi.AI_Agents
         protected float _initialDistance;
         protected Quaternion _rotation;
         protected Vector3 _relativePos;
+        protected Vector3 _startPos;
+        protected float _time;
 
         #endregion
 
@@ -71,20 +74,16 @@ namespace Mr_Sanmi.AI_Agents
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Avatar"))
             {
-                _avatarsTransform = other.gameObject.transform;;
+                _avatarsTransform = other.gameObject.transform;
+                StartCoroutine(RayDetectorCoroutine());
+            }
+        }
 
-                if (Physics.Linecast(transform.position, _avatarsTransform.position, out _currentRaycastHit))
-                {
-                    if (_currentRaycastHit.collider.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
-                    {
-                        print("¡No veo nada!");
-                    }
-                    if (_currentRaycastHit.collider.gameObject.layer == LayerMask.NameToLayer("Avatar"))
-                    {
-                        print("¡Ya te vi!");
-                        GameReferee.instance.ResetPlayersPosition();
-                    }
-                }
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Avatar"))
+            {
+                StopCoroutine(RayDetectorCoroutine());
             }
         }
 
@@ -223,31 +222,35 @@ namespace Mr_Sanmi.AI_Agents
 
             _isStillRotating = true;
             _fDTime = 0f;
-            //_startRot = _fsm.r
+            _startPos = _fsm.GetRBPosition();
             _endRot = Quaternion.Euler(_currentEnemyBehaviour.destinyDirection);
-            _initialDistance = Vector3.Distance(gameObject.transform.position, _destinyPos);
+            _initialDistance = Vector3.Distance(_startPos, _destinyPos);
+
+            _fsm.SetRBQuaternionRotation(Quaternion.LookRotation(_destinyPos - _startPos, Vector3.up));
+
         }
 
         protected virtual void ExecutingMoveSubStateMachine()
         {
-            _fsm._movementDirection = (_destinyPos - gameObject.transform.position).normalized;
+            _fsm._movementDirection = (_destinyPos - _fsm.GetRBPosition()).normalized;
             _distanceToDestiny = Vector3.Distance(gameObject.transform.position, _destinyPos);
 
-            if (_isStillRotating && _distanceToDestiny > 0.1f)
-            {
-                _fDTime += Time.fixedDeltaTime;
-                float time = _fDTime * _initialDistance;
+            _fsm.SetRBQuaternionRotation(Quaternion.LookRotation(_destinyPos - _startPos, Vector3.up));
 
-                //_fsm.RBRotationWhileMoving(_startRot, _endRot, time);
+            //if (_isStillRotating && _distanceToDestiny > 0.1f)
+            //{
+            //    _fDTime += Time.fixedDeltaTime;
+            //    _time = _fDTime * _initialDistance;
 
-                //transform.Rotate(Vector3.up * Time.fixedDeltaTime * _newAngle);
-            }
-            else if (_isStillRotating)
-            {
-                //_newAngle = _currentEnemyBehaviour.destinyRotation.y;
-                _fsm.SetRBRotation(_currentEnemyBehaviour.destinyDirection);
-                _isStillRotating = false;
-            }
+            //    _fsm.RBRotationWhileMoving(_startPos, _destinyPos, _time);
+
+            //    //transform.Rotate(Vector3.up * Time.fixedDeltaTime * _newAngle);
+            //}
+            //else if (_isStillRotating)
+            //{
+            //    _fsm.SetRBQuaternionRotation(Quaternion.LookRotation(_destinyPos - _startPos, Vector3.up));
+            //    _isStillRotating = false;
+            //}
 
             if (_distanceToDestiny <= 0.1f)
             {
@@ -267,10 +270,6 @@ namespace Mr_Sanmi.AI_Agents
 
         protected virtual void InitializeTurnSubStateMachine()
         {
-            //print("I WILL START ROTATING!");
-            ////_newAngle = _currentEnemyBehaviour.destinyRotation.y / _currentEnemyBehaviour.durationTime;
-            //print("DestinyRotation" + _currentEnemyBehaviour.destinyRotation);
-            //print("DurationTime" + _currentEnemyBehaviour.durationTime);
             _fsm.StateMechanic(StateMechanic.TURN);
             _isStillRotating = true;
             _fDTime = 0f;
@@ -312,6 +311,33 @@ namespace Mr_Sanmi.AI_Agents
         #endregion TurnSubStateMachineMethods
 
         #endregion SubStateMachineMethods
+
+        #region Coroutines
+
+        protected IEnumerator RayDetectorCoroutine()
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            if(_avatarsTransform != null)
+            {
+                if (Physics.Linecast(transform.position, _avatarsTransform.position, out _currentRaycastHit))
+                {
+                    if (_currentRaycastHit.collider.gameObject.layer != LayerMask.NameToLayer("Obstacle"))
+                    {
+                        if (_currentRaycastHit.collider.gameObject.layer == LayerMask.NameToLayer("Avatar"))
+                        {
+                            print("¡Ya te vi!");
+                            _avatarsTransform = null;
+                            GameReferee.instance.ResetPlayersPosition();
+                            yield break;
+                        }
+                    }
+                    StartCoroutine(RayDetectorCoroutine());
+                }
+            }
+        }
+
+        #endregion
 
     }
 

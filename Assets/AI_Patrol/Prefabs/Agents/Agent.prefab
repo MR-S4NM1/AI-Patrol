@@ -51,9 +51,14 @@ MonoBehaviour:
   _rb: {fileID: 5995470702985712237}
   _anim: {fileID: 5178235396869339836}
   _agent: {fileID: 8521174656219482889}
+  _rotationSpeed: 0
   _state: 0
   _movementDirection: {x: 0, y: 0, z: 0}
+  _angularVelocity: {x: 0, y: 0, z: 0}
   _movementSpeed: 0
+  _transform: {fileID: 0}
+  _lookDirection: {x: 0, y: 0, z: 0}
+  _fDTime: 0
 --- !u!114 &8521174656219482889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,8 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b1623a64deb0b4ba6db17915bf757f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fsm: {fileID: 1785175720680617386}
-  rotationSpeed: 0
+  _fsm: {fileID: 0}
 --- !u!95 &5178235396869339836
 Animator:
   serializedVersion: 7
@@ -115,7 +119,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1001 &352071004339602154
 PrefabInstance:

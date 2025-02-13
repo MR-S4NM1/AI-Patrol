@@ -10,22 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4094748adbece548a70f4b672e285da, type: 3}
-  m_Name: EnemyNPC_SO_E
+  m_Name: EnemyNPC_SO_G
   m_EditorClassIdentifier: 
   patrolBehaviours:
   - stateMechanic: 1
     movSpeed: 1
     durationTime: 0
-    destinyDirection: {x: -25.75, y: 0, z: 5.5}
+    destinyDirection: {x: -11.75, y: 0, z: 8.5}
     destinyRotation: {x: 0, y: 0, z: 0}
   - stateMechanic: 1
-    movSpeed: 0.5
+    movSpeed: 1
     durationTime: 0
-    destinyDirection: {x: -19.75, y: 0, z: 5.5}
-    destinyRotation: {x: 0, y: 180, z: 0}
+    destinyDirection: {x: -7.75, y: 0, z: 8.5}
+    destinyRotation: {x: 0, y: 0, z: 0}
+  - stateMechanic: 1
+    movSpeed: 1
+    durationTime: 0
+    destinyDirection: {x: -7.75, y: 0, z: 4.5}
+    destinyRotation: {x: 0, y: 0, z: 0}
+  - stateMechanic: 1
+    movSpeed: 1
+    durationTime: 0
+    destinyDirection: {x: -11.75, y: 0, z: 4.5}
+    destinyRotation: {x: 0, y: 0, z: 0}
   visionCodeParameters:
-    distance: 7.5
-    fieldOfView: 11
+    distance: 6
+    fieldOfView: 12
   spawnParameters:
-    position: {x: -25.75, y: 0, z: 5.5}
+    position: {x: -11.75, y: 0, z: 4.5}
     rotation: {x: 0, y: 270, z: 0}
