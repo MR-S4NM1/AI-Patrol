@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/AI_Patrol/Scenes/VictoryScene.unity
     guid: 8575a4d89db5b284b8121eb2a98462db
+  - enabled: 1
+    path: Assets/AI_Patrol/Scenes/Portada.unity
+    guid: 59bbcbf9196bba74183077e0a438ee64
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: b4386ae03b1292947a4ff459c831c2c3, type: 3}
   m_UseUCBPForAssetBundles: 0

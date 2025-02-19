@@ -41,19 +41,6 @@ namespace Mr_Sanmi.AI_Agents
         #endregion
 
         #region UnityMethods
-        private void OnDrawGizmos()
-        {
-
-        }
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
 
         private void FixedUpdate()
         {
@@ -83,6 +70,7 @@ namespace Mr_Sanmi.AI_Agents
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Avatar"))
             {
+                _avatarsTransform = null;
                 StopCoroutine(RayDetectorCoroutine());
             }
         }
@@ -334,6 +322,10 @@ namespace Mr_Sanmi.AI_Agents
                     }
                     StartCoroutine(RayDetectorCoroutine());
                 }
+            }
+            else
+            {
+                yield break;
             }
         }
 
